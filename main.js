@@ -1,10 +1,14 @@
-
+import {franc} from 'franc'
 
 const decrypt = (code, type) => {
     if (type === 'caesar') {
         for (let i = 0; i < 26; i++) {
-            console.log(shift(code, i));
-        }
+            let decrypted = shift(code, i)
+            // console.log(decrypted);
+            if (franc(decrypted) === 'eng') {
+                return decrypted
+            }
+        }     
     }
 }
 
@@ -30,4 +34,5 @@ const shift = (characters, amount) => {
 
 console.log("test")
 // console.log(shift('hello world', 5))
-console.log(decrypt('Khoor zruog', 'caesar'))
+// console.log(decrypt('Khoor zruog', 'caesar'))
+console.log(decrypt('olssv dvysk tf uhtl pz altwshal', 'caesar'))
