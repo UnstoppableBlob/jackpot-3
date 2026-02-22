@@ -14,7 +14,7 @@ function chiSquared(text) {
 
     if (totalLetters === 0) return Infinity;
 
-    counts = new Array(26).fill(0)
+    let counts = new Array(26).fill(0)
 
     for (let i = 0; i < 26; i++) {
         const charCode = letters.charCodeAt(i) - 97
@@ -35,17 +35,38 @@ function chiSquared(text) {
 }
 
 
+// const decrypt = (code, type) => {
+//     if (type === 'caesar') {
+//         for (let i = 0; i < 26; i++) {
+//             let decrypted = shift(code, i)
+//             // console.log(decrypted);
+//             if (franc(decrypted) === 'eng') {
+//                 return decrypted
+//             }
+//         }     
+//     }
+// }
+
+
 const decrypt = (code, type) => {
-    if (type === 'caesar') {
+    if (type ==='caesar') {
+        let bestDecryption = '';
+        let lowestScore = Infinity;
+
         for (let i = 0; i < 26; i++) {
             let decrypted = shift(code, i)
-            // console.log(decrypted);
-            if (franc(decrypted) === 'eng') {
-                return decrypted
+            let score = chiSquared(decrypted)
+
+            if (score <lowestScore) {
+                lowestScore = score
+                bestDecryption = decrypted
             }
-        }     
+        }
+        return bestDecryption; 
     }
+    
 }
+
 
 const shift = (characters, amount) => {
     const n = amount % 26
