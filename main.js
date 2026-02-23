@@ -11,6 +11,24 @@ const bigrams = [
     'to', 'it', 'ou', 'ea', 'hi', 'is', 'or', 'ti', 'as', 'te', 'et', 'ng', 'of', 'al', 'de'
 ];
 
+
+const ioc = (text) => {
+    total = text.length
+    if (total === 0) return 0;
+
+    let counts = new Array(26).fill(0);
+    for (let i = 0; i < total; i++) {
+        counts[text.charCodeAt(i) - 97]++
+    }
+
+    let sum = 0;
+    for (let i = 0; i < 26; i++) {
+        sum += counts[i] * (counts[i] - 1);
+    }
+    return sum / (total * (total - 1));
+}
+
+
 function chiSquared(text) {
     const letters = text.toLowerCase().replace(/[^a-z]/g, '');
     const total = letters.length;
