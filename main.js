@@ -1,4 +1,3 @@
-import {franc} from 'franc'
 
 
 const frequencies = [
@@ -7,88 +6,80 @@ const frequencies = [
     0.02758, 0.00978, 0.02360, 0.00150, 0.01974, 0.00074
 ];
 
+const bigrams = [
+    'th', 'he', 'in', 'er', 'an', 're', 'nd', 'at', 'on', 'nt', 'ha', 'es', 'st', 'en', 'ed', 
+    'to', 'it', 'ou', 'ea', 'hi', 'is', 'or', 'ti', 'as', 'te', 'et', 'ng', 'of', 'al', 'de'
+];
 
 function chiSquared(text) {
-    const letters = text.toLowerCase().replace(/[^a-z]/g, '')
-    const totalLetters = letters.length;
+    const letters = text.toLowerCase().replace(/[^a-z]/g, '');
+    const total = letters.length;
+    if (total === 0) return Infinity;
 
-    if (totalLetters === 0) return Infinity;
-
-    let counts = new Array(26).fill(0)
-
-    for (let i = 0; i < 26; i++) {
-        const charCode = letters.charCodeAt(i) - 97
-        counts[charCode]++
+    let counts = new Array(26).fill(0);
+    for (let i = 0; i < total; i++) {
+        counts[letters.charCodeAt(i) - 97]++;
     }
 
     let chi2 = 0;
     for(let i = 0; i < 26; i++) {
-        const observed = counts[i]
-        const expected = totalLetters * frequencies[i]
-
+        const expected = total * frequencies[i];
         if (expected > 0) {
-            chi2 += Math.pow(observed - expected, 2) / expected
+            chi2 += Math.pow(counts[i] - expected, 2) / expected;
         }
-
     }
-    return chi2
+    return chi2;
 }
 
+function bigramScore(text) {
+    let score = 0;
+    const letters = text.toLowerCase().replace(/[^a-z]/g, '');
+    
+    for (let i = 0; i < letters.length - 1; i++) {
+        const bigram = letters.substring(i, i + 2);
+        if (bigrams.includes(bigram)) score++;
+    }
+    return score;
+}
 
-// const decrypt = (code, type) => {
-//     if (type === 'caesar') {
-//         for (let i = 0; i < 26; i++) {
-//             let decrypted = shift(code, i)
-//             // console.log(decrypted);
-//             if (franc(decrypted) === 'eng') {
-//                 return decrypted
-//             }
-//         }     
-//     }
-// }
-
-
-const decrypt = (code, type) => {
-    if (type ==='caesar') {
-        let bestDecryption = '';
-        let lowestScore = Infinity;
+function decrypt(code, type) {
+    if (type === 'caesar') {
+        let candidates = [];
 
         for (let i = 0; i < 26; i++) {
-            let decrypted = shift(code, i)
-            let score = chiSquared(decrypted)
+            let decrypted = shift(code, i);
+            const score = chiSquared(decrypted);
+            candidates.push({ text: decrypted, score: score });
+        }
 
-            if (score <lowestScore) {
-                lowestScore = score
-                bestDecryption = decrypted
+        candidates.sort((a, b) => a.score - b.score);
+
+        let best = candidates[0].text;
+        let bestBigram = -1;
+
+        for (let i = 0; i < 5; i++) {
+            let text = candidates[i].text;
+            let bgScore = bigramScore(text);
+            
+            if (bgScore > bestBigram) {
+                bestBigram = bgScore;
+                best = text;
             }
         }
-        return bestDecryption; 
+        
+        return best;
     }
-    
 }
-
 
 const shift = (characters, amount) => {
-    const n = amount % 26
-
+    const n = amount % 26;
     return [...characters].map((char) => {
         const c = char.charCodeAt(0);
-
-        if (c >= 65 && c <= 90) {
-            return String.fromCharCode(((c - 65 +n) %26) + 65);
-        }
-
-        if (c  >= 97 && c <= 122) {
-            return String.fromCharCode(((c -97 + n) % 26) + 97);
-        }  
-
+        if (c >= 65 && c <= 90) return String.fromCharCode(((c - 65 + n) % 26) + 65);
+        if (c >= 97 && c <= 122) return String.fromCharCode(((c - 97 + n) % 26) + 97);  
         return char;
-
-    })
-    .join('')
+    }).join('');
 }
 
-console.log("test")
-// console.log(shift('hello world', 5))
-// console.log(decrypt('Khoor zruog', 'caesar'))
-console.log(decrypt('olssv dvysk tf uhtl pz altwshal', 'caesar'))
+console.log(decrypt('olssv dvysk tf uhtl pz altwshal', 'caesar')); 
+console.log(decrypt('Uifsf jt b tfdsfu dpef', 'caesar'));
