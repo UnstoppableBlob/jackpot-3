@@ -12,6 +12,36 @@ const bigrams = [
 ];
 
 
+function keyLength(code, maxLen = 15) {
+    let bestLen = 1
+    let bestIOC = 0
+
+    for (let guess = 2; guess <= maxLen; guess++) {
+        let columns = new Array(guess).fill('');
+
+        for (let i = 0; i <code.length; i++) {
+            columns[i % guess] += code[i];
+
+        }
+
+        let total = 0
+        
+        for (let col = 0; col < guess; col++) {
+            total += ioc(columns[col]);
+        }
+        let average = totalIOC / guess;
+
+        if (average > bestIOC) {
+            bestIOC = averageIOC;
+            bestLen = guess;
+        }
+    }
+
+    return bestLen;
+
+}
+
+
 const ioc = (text) => {
     total = text.length
     if (total === 0) return 0;
