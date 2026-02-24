@@ -12,6 +12,71 @@ const bigrams = [
 ];
 
 
+function vigenere(code) {
+    const clean = code.toLowerCase().replace(/[^a-z]/g, '');
+
+    const keyLen = findKeyLength(clean)
+
+    console.log(`key length: ${keyLen}`)
+
+    let columns = new Array(keyLen).fill('');
+
+    for (let i = 0; i <clean.length; i++) {
+        columns[i % keyLen] += clean[i]
+    }
+
+    let shifts = [];
+    
+    for (let i = 0; i < keyLen; i++) {
+        let best = solveColumn(columns[i])
+        shifts.push(best)
+    }
+
+    let decrypted  = ''
+    let cleanCharIndex = 0;
+
+    for (let i =0; i < code.length; i++) {
+        let charCode = code.charCodeAt(i);
+
+        if ((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122)) {
+
+            let current = shifts[cleanCharIndex % keyLen];
+
+            let base = charCode > 97 ? 97 : 65
+
+            let decryptedChar = String.fromCharCode(((charCode - base - current + 26) % 26) + base);
+            decrypted += decryptedChar;
+            cleanCharIndex++;
+        } else {
+            decrypted += code[i]
+        }
+    }
+
+    return decrypted;
+
+}
+
+
+const solveColumn = (text) => {
+    let best = 0
+    let lowestScore = Infinity;
+
+    for (let shift = 0; shift < 26; shift++) {
+        let decrypted = shift(text, shift);
+
+        let score = chiSquared(decrypted);
+
+        if (score < lowestScore) {
+            lowestScore = score
+            best = shift;
+        }
+    }
+
+    return best;
+
+}
+
+
 function keyLength(code, maxLen = 15) {
     let bestLen = 1
     let bestIOC = 0
