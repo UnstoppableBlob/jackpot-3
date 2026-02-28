@@ -12,100 +12,129 @@ const bigrams = [
 ];
 
 
-// function vigenere(code) {
-//     const clean = code.toLowerCase().replace(/[^a-z]/g, '');
+function getCombos(candsPerCol) {
+    if (candsPerCol.length === 0) return [[]];
 
-//     const keyLen = keyLength(clean)
+    const firstCol = candsPerCol[0]
+    const rest = getCombos(candsPerCol.slice(1))
 
-//     console.log(`key length: ${keyLen}`)
+    const combinations = []
 
-//     let columns = new Array(keyLen).fill('');
-
-//     for (let i = 0; i <clean.length; i++) {
-//         columns[i % keyLen] += clean[i]
-//     }
-
-//     let shifts = [];
-    
-//     for (let i = 0; i < keyLen; i++) {
-//         let best = solveColumn(columns[i])
-//         shifts.push(best)
-//     }
-
-//     let decrypted  = ''
-//     let cleanCharIndex = 0;
-
-//     for (let i =0; i < code.length; i++) {
-//         let charCode = code.charCodeAt(i);
-
-//         if ((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122)) {
-
-//             let current = shifts[cleanCharIndex % keyLen];
-
-//             let base = charCode >= 97 ? 97 : 65
-
-//             let decryptedChar = String.fromCharCode(((charCode - base + current) % 26) + base);
-//             decrypted += decryptedChar;
-//             cleanCharIndex++;
-//         } else {
-//             decrypted += code[i]
-//         }
-//     }
-
-//     return decrypted;
-
-// }
-
-
-function vigenere(code, maxLen = 10) {
-    const clean = code.toLowerCase().replace(/[^a-z]/g, '')
-
-    let bestDecrypted = ''
-    let highestBigram = -1;
-    let bestKeyLen = 0
-
-    for (let guess = 2; guess <= maxLen; guess++) {
-
-        let columns = new Array(guess).fill('');
-
-        for (let i = 0; i < clean.length; i++) {
-            columns[i % guess] += clean[i]
-        }
-
-        let shifts = [];
-
-        for (let i = 0; i < guess; i++) {
-            shifts.push(solveColumn(columns[i]));
-
-        }
-
-        let decrypted = ''
-        let cleanCharIndex = 0
-
-        for (let i = 0; i <code.length; i++) {
-            let charCode = code.charCodeAt(i)
-            if ((charCode >= 65 && charCode <= 90 || (charCode >= 97 && charCode <= 122))) {
-                let current = shifts[cleanCharIndex % guess]
-                let base = charCode >= 97 ? 97 : 65
-                decrypted += String.fromCharCode(((charCode - base + current) % 26) + base)
-                cleanCharIndex++;
-            } else {
-                decrypted += code[i]
-            }
-        }
-        let score = bigramScore(decrypted);
-
-        if (score > highestBigram) {
-            highestBigram = score;
-            bestDecrypted = decrypted;
-            bestKeyLen = guess
+    for (let shiftAmt of firstCol) {
+        for (let combo of rest) {
+            combinations.push([shiftAmt, ...combo])
         }
     }
 
-    console.log(`Best key length: ${bestKeyLen}`)
-    return bestDecrypted;
-    
+    return combinations;
+
 }
+
+
+
+const vigenere = (code, maxLen = 10) => {
+    const clean = code.toLowerCase().replace(/[^a-z]/g, '')
+
+    let bestDecrypt = ''
+    let highestBig = -1;
+    let bestLen = 0
+
+    for (let guess = 2; guess <= maxLen; guess++) {
+        let columns = new Array(guess).fill('');
+
+        for (let i = 0; i <clean.length; i++) {
+            columns[i % guess] += clean[i]
+
+        }
+
+        let candidatesPerCol= [];
+
+        for (let i = 0; i < guess; i++) {
+            candidatesPerCol.push(solveColumn(columns[i]));
+            
+        }
+
+        let allPossibleCombos = getCombos(candidatesPerCol)
+
+        for (let shifts of allPossibleCombos) {
+            let decrypted = ''
+            let cleanCharIndex = 0
+
+            for (let i = 0; i < code.length; i++) {
+                let charCode = code.charCodeAt(i)
+                if ((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122)) {
+                    let current = shifts[cleanCharIndex  % guess]
+                    let base = charCode >= 97 ? 97 : 65
+                    decrypted += String.fromCharCode(((charCode - base + current) % 26) + base)
+                    cleanCharIndex++;
+                } else {
+                decrypted += code[i]
+                }
+            }
+
+            let score = bigramScore(decrypted);
+
+            if (score > highestBig) {
+                highestBig = score;
+                bestDecrypt = decrypted;
+                bestLen = guess;
+            }
+
+        }
+    }
+    console.log(`best key length: ${bestLen}`)
+    return bestDecrypt;
+}
+
+// function vigenere(code, maxLen = 10) {
+//     const clean = code.toLowerCase().replace(/[^a-z]/g, '')
+
+//     let bestDecrypted = ''
+//     let highestBigram = -1;
+//     let bestKeyLen = 0
+
+//     for (let guess = 2; guess <= maxLen; guess++) {
+
+//         let columns = new Array(guess).fill('');
+
+//         for (let i = 0; i < clean.length; i++) {
+//             columns[i % guess] += clean[i]
+//         }
+
+//         let shifts = [];
+
+//         for (let i = 0; i < guess; i++) {
+//             shifts.push(solveColumn(columns[i]));
+
+//         }
+
+//         let decrypted = ''
+//         let cleanCharIndex = 0
+
+//         for (let i = 0; i <code.length; i++) {
+//             let charCode = code.charCodeAt(i)
+//             if ((charCode >= 65 && charCode <= 90 || (charCode >= 97 && charCode <= 122))) {
+//                 let current = shifts[cleanCharIndex % guess]
+//                 let base = charCode >= 97 ? 97 : 65
+//                 decrypted += String.fromCharCode(((charCode - base + current) % 26) + base)
+//                 cleanCharIndex++;
+//             } else {
+//                 decrypted += code[i]
+//             }
+//         }
+//         let score = bigramScore(decrypted);
+
+//         if (score > highestBigram) {
+//             highestBigram = score;
+//             bestDecrypted = decrypted;
+//             bestKeyLen = guess
+//         }
+//     }
+
+//     console.log(`Best key length: ${bestKeyLen}`)
+//     return bestDecrypted;
+    
+// }
 
 
 // const solveColumn = (text) => {
