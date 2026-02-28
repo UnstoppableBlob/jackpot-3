@@ -108,24 +108,40 @@ function vigenere(code, maxLen = 10) {
 }
 
 
-const solveColumn = (text) => {
-    let best = 0
-    let lowestScore = Infinity;
+// const solveColumn = (text) => {
+//     let best = 0
+//     let lowestScore = Infinity;
+
+//     for (let shiftAmt = 0; shiftAmt < 26; shiftAmt++) {
+//         let decrypted = shift(text, shiftAmt);
+
+//         let score = chiSquared(decrypted);
+
+//         if (score < lowestScore) {
+//             lowestScore = score
+//             best = shiftAmt;
+//         }
+//     }
+
+//     return best;
+
+// }
+
+
+const solveColumn = (text, topN = 3) => {
+    let candidates = []
 
     for (let shiftAmt = 0; shiftAmt < 26; shiftAmt++) {
         let decrypted = shift(text, shiftAmt);
+        let score = (chiSquared(decrypted))
 
-        let score = chiSquared(decrypted);
-
-        if (score < lowestScore) {
-            lowestScore = score
-            best = shiftAmt;
-        }
+        candidates.push({ shift: shiftAmt, score: score})
     }
 
-    return best;
-
+    candidates.sort((a, b) => a.score - b.score)
+    return candidates.slice(0, topN).map(c => c.shift)
 }
+
 
 
 function keyLength(code, maxLen = 15) {
@@ -248,5 +264,4 @@ const shift = (characters, amount) => {
 // console.log(decrypt('olssv dvysk tf uhtl pz altwshal', 'caesar')); 
 // console.log(decrypt('Uifsf jt b tfdsfu dpef', 'caesar'));
 
-console.log(vigenere('alte mty rae nsf jfxhqd zgwd tsp datd zx feie outs wgfs zq tugclee styuq lpelqrd ezmt dsaze lcw delwdk gzzv roc oworjalunr fkunr ezq czxtunleaan zq tugclee ayo xdebfwzcj lfmljdae'));
-
+console.log(vigenere('alte mty rae nsf jfxhqd zgwd tsp datd zx feie outs wgfs zq tugclee styuq lpelqrd ezmt dsaze lcw delwdk gzzv roc oworjalunr fkunr ezq czxtunleaan zq tugclee ayo xdebfwzcj lfmljdae'))
