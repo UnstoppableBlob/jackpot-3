@@ -30,7 +30,7 @@ function getCombos(candsPerCol) {
 
 }
 
-
+// i think that there might be an issue with either vigenere() or i think the bigrams are faking it out, because the sentence with the most bigrams is not always the correct sentence
 
 const vigenere = (code, maxLen = 10) => {
     const clean = code.toLowerCase().replace(/[^a-z]/g, '')
@@ -156,8 +156,8 @@ const vigenere = (code, maxLen = 10) => {
 
 // }
 
-
-const solveColumn = (text, topN = 3) => {
+// figured out that increasign this actually works, just need to add a way to make it more efficient
+const solveColumn = (text, topN = 5) => {
     let candidates = []
 
     for (let shiftAmt = 0; shiftAmt < 26; shiftAmt++) {
@@ -291,6 +291,6 @@ const shift = (characters, amount) => {
 }
 
 // console.log(decrypt('olssv dvysk tf uhtl pz altwshal', 'caesar')); 
-// console.log(decrypt('Uifsf jt b tfdsfu dpef', 'caesar'));
+console.log(decrypt('Uifsf jt b tfdsfu dpef', 'caesar'));
 
 console.log(vigenere('alte mty rae nsf jfxhqd zgwd tsp datd zx feie outs wgfs zq tugclee styuq lpelqrd ezmt dsaze lcw delwdk gzzv roc oworjalunr fkunr ezq czxtunleaan zq tugclee ayo xdebfwzcj lfmljdae'))
