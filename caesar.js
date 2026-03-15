@@ -30,7 +30,7 @@ function getCombos(candsPerCol) {
 
 }
 
-// i think that there might be an issue with either vigenere() or i think the bigrams are faking it out, because the sentence with the most bigrams is not always the correct sentence
+
 
 const vigenere = (code, maxLen = 10) => {
     const clean = code.toLowerCase().replace(/[^a-z]/g, '')
@@ -86,77 +86,6 @@ const vigenere = (code, maxLen = 10) => {
     return bestDecrypt;
 }
 
-// function vigenere(code, maxLen = 10) {
-//     const clean = code.toLowerCase().replace(/[^a-z]/g, '')
-
-//     let bestDecrypted = ''
-//     let highestBigram = -1;
-//     let bestKeyLen = 0
-
-//     for (let guess = 2; guess <= maxLen; guess++) {
-
-//         let columns = new Array(guess).fill('');
-
-//         for (let i = 0; i < clean.length; i++) {
-//             columns[i % guess] += clean[i]
-//         }
-
-//         let shifts = [];
-
-//         for (let i = 0; i < guess; i++) {
-//             shifts.push(solveColumn(columns[i]));
-
-//         }
-
-//         let decrypted = ''
-//         let cleanCharIndex = 0
-
-//         for (let i = 0; i <code.length; i++) {
-//             let charCode = code.charCodeAt(i)
-//             if ((charCode >= 65 && charCode <= 90 || (charCode >= 97 && charCode <= 122))) {
-//                 let current = shifts[cleanCharIndex % guess]
-//                 let base = charCode >= 97 ? 97 : 65
-//                 decrypted += String.fromCharCode(((charCode - base + current) % 26) + base)
-//                 cleanCharIndex++;
-//             } else {
-//                 decrypted += code[i]
-//             }
-//         }
-//         let score = bigramScore(decrypted);
-
-//         if (score > highestBigram) {
-//             highestBigram = score;
-//             bestDecrypted = decrypted;
-//             bestKeyLen = guess
-//         }
-//     }
-
-//     console.log(`Best key length: ${bestKeyLen}`)
-//     return bestDecrypted;
-    
-// }
-
-
-// const solveColumn = (text) => {
-//     let best = 0
-//     let lowestScore = Infinity;
-
-//     for (let shiftAmt = 0; shiftAmt < 26; shiftAmt++) {
-//         let decrypted = shift(text, shiftAmt);
-
-//         let score = chiSquared(decrypted);
-
-//         if (score < lowestScore) {
-//             lowestScore = score
-//             best = shiftAmt;
-//         }
-//     }
-
-//     return best;
-
-// }
-
-// figured out that increasign this actually works, just need to add a way to make it more efficient
 const solveColumn = (text, topN = 5) => {
     let candidates = []
 
@@ -293,4 +222,4 @@ const shift = (characters, amount) => {
 // console.log(decrypt('olssv dvysk tf uhtl pz altwshal', 'caesar')); 
 console.log(decrypt('Uifsf jt b tfdsfu dpef', 'caesar'));
 
-console.log(vigenere('alte mty rae nsf jfxhqd zgwd tsp datd zx feie outs wgfs zq tugclee styuq lpelqrd ezmt dsaze lcw delwdk gzzv roc oworjalunr fkunr ezq czxtunleaan zq tugclee ayo xdebfwzcj lfmljdae'))
+// console.log(vigenere('alte mty rae nsf jfxhqd zgwd tsp datd zx feie outs wgfs zq tugclee styuq lpelqrd ezmt dsaze lcw delwdk gzzv roc oworjalunr fkunr ezq czxtunleaan zq tugclee ayo xdebfwzcj lfmljdae'))

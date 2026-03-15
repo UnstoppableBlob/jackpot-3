@@ -81,7 +81,7 @@ function decrypt(cipher,key){
 }
 
 
-function crack(cipher,keyLen,iterations=1000){
+function crack(cipher,keyLen,iterations=500){
 
     let key = Array.from({length:keyLen},()=>Math.floor(Math.random()*26))
 
@@ -110,7 +110,7 @@ function crack(cipher,keyLen,iterations=1000){
 }
 
 
-function crackRestart(cipher,keyLen,restarts=20){
+function crackRestart(cipher,keyLen,restarts=10){
 
     let best = null
 
@@ -178,7 +178,7 @@ function solveVigenere(cipher){
     for (let len=2; len <= 12; len++) {
         console.log("Testing key length:", len)
     
-        const result = crackRestart(cipher, len, 200)
+        const result = crackRestart(cipher, len, 150)
 
         if (!best || result.score > best.score)
             best = result
