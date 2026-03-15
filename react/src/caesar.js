@@ -180,33 +180,32 @@ function bigramScore(text) {
     return score;
 }
 
-function decrypt(code, type) {
-    if (type === 'caesar') {
-        let candidates = [];
+export function decrypt(code) {
+    let candidates = [];
 
-        for (let i = 0; i < 26; i++) {
-            let decrypted = shift(code, i);
-            const score = chiSquared(decrypted);
-            candidates.push({ text: decrypted, score: score });
-        }
-
-        candidates.sort((a, b) => a.score - b.score);
-
-        let best = candidates[0].text;
-        let bestBigram = -1;
-
-        for (let i = 0; i < 5; i++) {
-            let text = candidates[i].text;
-            let bgScore = bigramScore(text);
-            
-            if (bgScore > bestBigram) {
-                bestBigram = bgScore;
-                best = text;
-            }
-        }
-        
-        return best;
+    for (let i = 0; i < 26; i++) {
+        let decrypted = shift(code, i);
+        const score = chiSquared(decrypted);
+        candidates.push({ text: decrypted, score: score });
     }
+
+    candidates.sort((a, b) => a.score - b.score);
+
+    let best = candidates[0].text;
+    let bestBigram = -1;
+
+    for (let i = 0; i < 5; i++) {
+        let text = candidates[i].text;
+        let bgScore = bigramScore(text);
+        
+        if (bgScore > bestBigram) {
+            bestBigram = bgScore;
+            best = text;
+        }
+    }
+    
+    return best;
+    
 }
 
 const shift = (characters, amount) => {
@@ -220,6 +219,6 @@ const shift = (characters, amount) => {
 }
 
 // console.log(decrypt('olssv dvysk tf uhtl pz altwshal', 'caesar')); 
-console.log(decrypt('Uifsf jt b tfdsfu dpef', 'caesar'));
+console.log(decrypt('Uifsf jt b tfdsfu dpef'));
 
 // console.log(vigenere('alte mty rae nsf jfxhqd zgwd tsp datd zx feie outs wgfs zq tugclee styuq lpelqrd ezmt dsaze lcw delwdk gzzv roc oworjalunr fkunr ezq czxtunleaan zq tugclee ayo xdebfwzcj lfmljdae'))
