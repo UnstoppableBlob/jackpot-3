@@ -180,7 +180,7 @@ function bigramScore(text) {
     return score;
 }
 
-export function decrypt(code) {
+export function caesar(code) {
     let candidates = [];
 
     for (let i = 0; i < 26; i++) {
@@ -219,6 +219,6 @@ const shift = (characters, amount) => {
 }
 
 // console.log(decrypt('olssv dvysk tf uhtl pz altwshal', 'caesar')); 
-console.log(decrypt('Uifsf jt b tfdsfu dpef'));
+console.log(caesar('Uifsf jt b tfdsfu dpef'));
 
 // console.log(vigenere('alte mty rae nsf jfxhqd zgwd tsp datd zx feie outs wgfs zq tugclee styuq lpelqrd ezmt dsaze lcw delwdk gzzv roc oworjalunr fkunr ezq czxtunleaan zq tugclee ayo xdebfwzcj lfmljdae'))

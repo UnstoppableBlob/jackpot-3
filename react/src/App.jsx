@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { decrypt } from './caesar.js'
+import { caesar } from './caesar.js'
+import { vigenere } from './vigenere.js'
 
 
 function App() {
@@ -24,9 +25,11 @@ function App() {
 
   const decode = (event) => {
     event.preventDefault();
-
-    setPlaintext(decrypt(ciphertext))
-
+    if (type === "caesar") {
+      setPlaintext(caesar(ciphertext))
+    } else if (type === "vigenere") {
+      setPlaintext(vigenere(ciphertext))
+    }
     
 
   }

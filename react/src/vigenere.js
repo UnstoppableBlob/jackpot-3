@@ -135,7 +135,7 @@ function guessKeyLen(cipher, maxLen = 15) {
     return bestLen;
 }
 
-function crack(cipher) {
+export function vigenere(cipher) {
     const keyLen = guessKeyLen(cipher);
 
     console.log("estimated key length:", keyLen);
@@ -146,10 +146,11 @@ function crack(cipher) {
 
     const plaintext = decrypt(cipher, key);
 
-    console.log("\nplaintext:\n");
-    console.log(plaintext);
+    // console.log("\nplaintext:\n");
+    // console.log(plaintext);
+    return plaintext
 }
 
 const vigenereCode = `Vyc Rntbwiya Ipmpfktgwv qw Ntixi RzeHbvkg zrh wmjwk gc 2004, Imxrr Nxz piu xpdpv ntfk p lqurcc Qkqbkjf ekmaeymde ivkdyixl agigtl qvvf y vewjcc hjzomteyjm. Kzgrrtw jg Pvtxetm Cjraxg ipu Kpks Jcbcg, mpm uyml ywtnfuh mpm frgar ilxvlinzmu fd pg ivvypdiwuqinwbk ngdyax xqi, ycg yiukcw, pgl pgi bxomzuv eghcx qw ycbuin wpxxvlu. Nfxem qv dyn txxgrp ih jm llqi tvwvycg vwtqidje kpkcbgxva erpihwv, kkq btaakmc hnkkgjq abma ke gil ijkcgir bw dcccw zmnrrputm hrkxeg laeybbka yzrw t lqukgcvb jtrls hn ltp, Zgbbquy fjfwz vyyi txxgrjh mw jqkf ihllnvph tvl vycxk xitvlil.Bpg tmgx ixrvya hn bjv qtkqmu zq xma akdnabkqvp ycw zmnrrpuqtkkw. Ttkp hztt-fqvwkc tiqaquc uhkcuvq dg mdgiwstg iekgkbbqgj rwtb itv kdgcugerpe qv c tfxela yfpaw, acey yh oqakkgcz bpg gjprozqlls, kqlkee p uqkatjt, hz oqzlv mw bjv eghkmtp qihzm. Dp atgbmtzlv mpm prpgtbqxv mc mpmuv "dxkab-vzkt" xfxgigtgkmu, kft lpwy gpdoqlgj y rhunqirxgo ntrktpwzm wmg rwcpx txxemtj rd nvlgiqitvl vyc lhztf rpdnvl vycb. Yczvycgfwzg, kft fqvkdyabab 2F rlxfibkfl hmgtg, tfpkikvvpxsml dp zgbopv tmahza ceb qtaqe jfpima, kj txlcincw pvkmujgqem ipu cplg nqi ngxakjfma-tomf tfxelzge rd izwevqh.T aqiegubkipk dpvbwt zl iam ajfu'h ewvivtxmg qu zrh acuqimjl kpciyrmmzkqyibwv, rrpibkcnrpar zmirpsbvo vyc pwctv tfpkikvvph. Wilfp Nxz, nwt zlhmivev, gh hnbge rwx bitxci hn ogerax bmcjgcz nwt ygh imzevgkxl "mzgcgm" abcksh tvl qtaplqwprj recuuzltla, i vimex bpck kpgg xciccma nkeb tglmcigcztg hrkxeqit. Gceii pgiqten qu emi t xmtwcrm xzqkyvhvquk; qwx kip sc qhaaa rls vwurvrxmqdg, dyzbvo jvp p fwzg icpeqavza gxxzgjccmibkfl dy i gqllv vpqnu rwtv ucew htvqvzxtw kitkmdg kwwertkxitkq. Iaqa ulziem ekk cclczgj rwtb bjv qwhe zgdyxga bqccgtjtg—rls hnbge etgcqpvjn ycvpp—ddk bpg rbjeba yym bnab yrrra qb tvnttbmfcw lbbp vycxk kpkcbgxv.Pqnckxz, bjv "Ntixi Gwdtvb" pcj ldm jmge uxmpwwk gil kcnksgtt qogyrm ivf fartaqqeya vwvvimkxzaa. Zl iam Cpzrtw Abckch, iizgerh aidg wybhcanp ptiwzvvb iamqt tfxelzge btomtqggcz Jzkkgha ikevlil ivf lqxgo dqtyqntitp jxdm "xgkpde abckgdg" wz "nfpgr" invvp qbvog-nyivpqpx rwx apqn. Mc t uwtv qtkqwwj ldmm, bjv qwhe pcj dpvml ozldk kzkkgrbauu fttk bpg pcpka zgxygwqvi Gceiia qtaplqwprjar zcfv ztaidkfp iheitu ftk nivycg tvl grpar mxkjmsxa ejvpt vpitraixza fzb chb egrp hxibdvjil wz jvjbxba. Vyc rkmivfph aidg sctg xzqraibdm ke yswzmujgcz bpgjc rhvkgilh, lpwyzlv tv mxfjjmqwp zl iam agigtl bw ovci fwlgil etzmpkgcz abcebpkla.Ke adgktwjgdg, Xmrgy Ebo qu wyg fwzg kfpg i ajfu puwcv asbiqvi zl bnlla gsswtmu. Zr wta jgtmbx i avrnax wn grpar kpkcbwhwl gusrtbqqe ycw mvvvpitqvovli ug kcgrjkqvi kft xaageat hn ncdgar tqhv uxmp kjrpb tvl uzkeeqkkkw. Iazwwxf xma knvttk ezkkgcz ivf llxomzurj iamugj, gi aia uvajkml kkq eeikg rq dgm wh kft fwav jsrvmauwsa izmutfdht ntrlraqagj gc aqavfpn. Ta tqee pl bpgic pkm bqubaxza fzqrhdmtzlv mpm yfpaw, Xmrgy pgl pgi dpfqta ngae tqmvjn vwvvzljx bw dv y shuqprli ywzev gc vpqnuptga ugugp.`;
 
-crack(vigenereCode);
+vigenere(vigenereCode);
