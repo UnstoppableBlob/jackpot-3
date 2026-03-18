@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { caesar } from './caesar.js'
 import { vigenere } from './vigenere.js'
+import './App.css'
 
 
 function App() {
@@ -10,10 +11,11 @@ function App() {
   const [ plaintext, setPlaintext ] = useState('')
 
   const updateCipher = (e) => {
-    const newVal = e.target.value
-    setCiphertext(newVal)
-
-  }
+    const el = e.target
+    el.style.height = 'auto'
+    el.style.height = el.scrollHeight + 'px'
+    setCiphertext(el.value)
+}
 
   const handleChange = (e) => {
     const newVal = e.target.value
@@ -35,26 +37,50 @@ function App() {
   }
 
   return (
-    <>
-      <div>
+  <>
+    <div className="container">
+      <div className="header">
+        <span className="tag">&lt;decrypt&gt;</span>
         <h1>Cracker</h1>
-        <h3>Enter your ciphertext and type of cipher</h3>
-        <form onSubmit={decode}>
-          <label htmlFor='ciphertext'>Ciphertext: </label>
-          <input type='text' placeholder='Uifsf jt b tfdsfu dpef' onChange={updateCipher}></input>
-          <label htmlFor="ciphertype">Choose a cipher: </label>
-          <select id='ciphertype' name="ciphertype" value={type} onChange={handleChange}>
-            <option value="caesar">Caesar Cipher</option>
-            <option value="vigenere">Vigenere Cipher</option>
-          </select>
-          <button type='submit'>Decode</button>
-        </form>
-        
-        <h4>{plaintext}hello</h4>
-
+        <span className="tag">&lt;/decrypt&gt;</span>
       </div>
-    </>
-  )
+      <p className="subtitle">Enter your ciphertext and select a cipher type</p>
+
+      <form onSubmit={decode} className="form">
+        <div className="field">
+          <label htmlFor="ciphertext" className="label">Ciphertext</label>
+          <input id="ciphertext" type="text" placeholder="Uifsf jt b tfdsfu dpef..." onChange={updateCipher} className="input" />
+        </div>
+
+        <div className="field">
+          <label htmlFor="ciphertype" className="label">Cipher Type</label>
+          <select id="ciphertype" name="ciphertype" value={type} onChange={handleChange} className="select" >
+
+
+            <option value="caesar">Caesar Cipher</option>
+            <option value="vigenere">Vigenère Cipher</option>
+          </select>
+        </div>
+
+
+        <button type="submit" className="button">
+          <span className="btn-text">Decode</span>
+          <span className="btn-arrow">→</span>
+        </button>
+
+      </form>
+
+      {plaintext && (
+        <div className="output">
+          <span className="output-label">// plaintext</span>
+          <p className="output-text">{plaintext}</p>
+        </div>
+
+      )}
+    </div>
+
+  </>
+)
 }
 
 export default App
