@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { caesar } from './caesar.js'
 import { vigenere } from './vigenere.js'
+import { bacon } from './baconian.js'
 import './App.css'
 
 
@@ -31,8 +32,11 @@ function App() {
       setPlaintext(caesar(ciphertext))
     } else if (type === "vigenere") {
       setPlaintext(vigenere(ciphertext))
+    } else if (type === "bacon") {
+      setPlaintext(bacon(ciphertext))
     }
     
+
 
   }
 
@@ -59,6 +63,7 @@ function App() {
 
             <option value="caesar">Caesar Cipher</option>
             <option value="vigenere">Vigenère Cipher</option>
+            <option value="bacon">Baconian Cipher</option>
           </select>
         </div>
 
