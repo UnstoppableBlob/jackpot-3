@@ -8,7 +8,7 @@ This is a website that lets you input any Baconian, Vigenere, or Caesar cipher o
 ## How to use it
 
 Just get your encoded text (we can call this the ciphertext), and put it in the box that says ciphertext. Then, just select the cipher type that it is, and hit decode! It will show you your decoded text (we can
- call this the plaintext), and you can hover over it and click to copy it to your clipboard. Simple!
+ call this the plaintext), and you can hover over it and click to copy it to your clipboard. Simple! You can access the website here: https://unstoppableblob.github.io/jackpot-3/
 
 ## How it was made
 
